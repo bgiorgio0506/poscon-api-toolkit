@@ -243,7 +243,7 @@ export class FlightTracker {
             operator: this.operator,
         }
 
-        this.flightData.listenFlights(this.interval).subscribe(async(flightsData: Array<IFlightsData>) =>{
+        this.flightData.listenFlights(this.interval, opts).subscribe(async(flightsData: Array<IFlightsData>) =>{
             let previousFlightData = savedFlightData;
             savedFlightData = flightsData;
             for await (const flightData of savedFlightData) {
