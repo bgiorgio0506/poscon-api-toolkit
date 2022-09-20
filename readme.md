@@ -5,7 +5,6 @@ poscon-api-toolkit is a node dependency wirtten to allow easy access to POSCON A
 This package offers: 
 - Easy access to ATC and flights data
 - Automatic update of flight data
-- Ability to track a flight and its status
 - Automatic parsing for all data 
 - Easily controllable update rate
 
@@ -44,34 +43,18 @@ const atcApi = new AtcData();
 const flightApi = new FlightData();
 ```
 
-Flight Tracker capabilities are provided by `FlightTracker` class:
-```typescript
-import {FlightTracker} from 'poscon-api-toolkit';
-const posconTracker = new FlightTracker({interval: 35000});
-```
 **options**: 
 - Interval type `Number` : time in `ms` passed after each stream update this can be at minimum 35000ms =>  35 seconds. 
 - Callsign* is type `String | Array<String>`: a callsign or a series of callsigns that can be tracked.
 - operator* type `String | Array<String>`: an operator or a series of operators that can be tracked.
 - acType type `String | Array<String>`:  an aircraft type or a series of aircraft types that can be tracked.
-### Init
 
-`posconTracker.trackFlightPhases()` returns a void promise and it opens a stream.
-
-### Listen to the computed values
-
-`posconTracker.on()`  method take 2 arguments :
- - `event: string` : the event to listen to.
- - `listener: (data: object) => void` : the callback to call when the event is triggered.
-
-You can listen to the following events:
-- `flights-report-updated` : when the flights report is updated. 
 
 
 ### Complete example
 
 ```typescript
-import { FlightData, AtcData, FlightTracker } from 'poscon-api-toolkit';
+import { FlightData, AtcData } from 'poscon-api-toolkit';
 
 /* SDK Calls example*/
 const flighData = new FlightData();
@@ -105,21 +88,4 @@ const atcOnline = await atcData.getAtcByDate(date);
 //get upcoming ATC 
 const atcUpcoming = await atcData.getUpcomingAtc();
 
-
-/* Flight Tracker example*/
-
-// all options are optional
-const options = {
-    callsign : 'RYR123',
-    operator : 'RYR',
-    acType : 'B738',
-}
-const posconTracker = new FlightTracker(interval: 35000, options);
-
-//init the stream
-await posconTracker.trackFlightPhases();
-
-posconTracker.on('flights-report-updated', (data) => {
-    console.log(data);
-});
 ```
